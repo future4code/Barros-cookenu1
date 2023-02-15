@@ -1,33 +1,48 @@
-import { CustomError } from "../customError/CustomError";
+import { UserCustomError } from "../customError/UserCustomError";
+import { TUser} from "../model/UserModel";
 import { BaseDatabase } from "./BaseDatabase";
+import { TablesNames } from "./TablesName";
+
 
 export class UserDatabase extends BaseDatabase{
 
-  public crateUser = async ():Promise<void> => {
+  public createUser = async (input:TUser):Promise<void> => {
     try{
-     
+
+      await UserDatabase.connection.insert(input).into(TablesNames.Table_user);
 
     }catch(error:any){
-      throw new CustomError(error.statusCode, error.message);
+      throw new UserCustomError(error.statusCode, error.message);
     };
   };
   // -- -- -- -- -- -- - -- -- -- // -- -- -- -- -- -- -- -- -- -- -- //
-  public login = async (email:string) => {
+  public getUserByEmail = async (email:string):Promise<TUser> => {
     try{
-     
-
+      const user = await UserDatabase.connection(TablesNames.Table_user).select().where("email",email)
+      return user[0]
     }catch(error:any){
-      throw new CustomError(error.statusCode, error.message);
+      throw new UserCustomError(error.statusCode, error.message);
     };
   };
   // -- -- -- -- -- -- - -- -- -- // -- -- -- -- -- -- -- -- -- -- -- //
-  public getUserById = async (id:string) => {
+  public getUserById = async (id:string):Promise<TUser> => {
     try{
-     
+      const user = await UserDatabase.connection(TablesNames.Table_user).select().where("id",id)
+      return user[0]
 
     }catch(error:any){
-      throw new CustomError(error.statusCode, error.message);
+      throw new UserCustomError(error.statusCode, error.message);
     };
-  }; 
+  };
+
+  public getAllUsers = async ():Promise<TUser[]> => {
+    try{
+      const users = await UserDatabase.connection(TablesNames.Table_user).select()
+      return users
+    }catch(error:any){
+      throw new UserCustomError(error.statusCode, error.message);
+    };
+  };
+  
   // -- -- -- -- -- -- - -- -- -- // -- -- -- -- -- -- -- -- -- -- -- //
 }

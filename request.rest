@@ -1,0 +1,28 @@
+### CRIAR USUÁRIO
+POST http://localhost:3003/user/signup
+Content-Type: application/json
+
+{
+    "name": "Diego",
+    "email": "diego@outlook.com",
+    "password": "boraserDev",
+    "role": "admin"
+}
+
+### FAÇA O LOGIN ABAIXO PARA PEGAR O TOKEN
+POST http://localhost:3003/user/login
+Content-Type: application/json
+
+{
+    "email": "diego@outlook.com",
+    "password": "boraserDev"
+}
+
+### PEGUE O TOKEN NO LOGIN OU CRIANDO UM NOVO USUÁRIO
+GET http://localhost:3003/user/profile
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0YzY2YjkyLTBjNjEtNDdiMS05ZmFiLTg1MmI3NTg1ZjMzYyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY3NjQyNTUxNywiZXhwIjoxNjc2NDI5MTE3fQ.sx4mVZBz-i0x9my6PSJYS4sxp75wuIdsmGWuLm7vZlo
+
+### PEGAR TODOS USUARIOS 
+GET http://localhost:3003/user/all-users
+Content-Type: application/json
