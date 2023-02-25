@@ -1,14 +1,16 @@
 import * as jwt from "jsonwebtoken";
-import { Unauthorized } from "../customError/CustomError";
+import { Unauthorized } from "../customError/UserCustomError";
 import { AuthenticationToken } from "../model/UserModel";
 
 export class TokenGenerator {
   private jwtKey = process.env.JWT_KEY as string;
 
-  public generateToken = (id:string):string => {
+  public generateToken = ({id,role}:AuthenticationToken):string => {
     const token = jwt.sign(
-      { id:id },
-      this.jwtKey,
+      { id:id, 
+        role:role
+      },
+        this.jwtKey,
       { expiresIn:"1h" }
     )
    return token
@@ -20,7 +22,7 @@ export class TokenGenerator {
         token, 
         this.jwtKey
       ) as jwt.JwtPayload;
-      return {id:payload.id}
+      return {id:payload.id, role:payload.role}
     }catch(error:any){
       throw new Unauthorized()  
     };

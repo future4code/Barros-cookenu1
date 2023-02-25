@@ -12,6 +12,7 @@ export class Migrations extends BaseDatabase {
       CREATE TABLE IF NOT EXISTS ${TablesNames.Table_user}(
         id VARCHAR(255) PRIMARY KEY,
         name VARCHAR(255) NOT NULL,
+        role ENUM("normal","admin") NOT NULL DEFAULT "normal",
         email VARCHAR(255) UNIQUE NOT NULL,
         password VARCHAR(255) NOT NULL
       );
