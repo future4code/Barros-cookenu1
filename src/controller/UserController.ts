@@ -1,6 +1,6 @@
 import { UserBusiness } from "../business/UserBusiness"
 import { Request, Response } from "express";
-import { LoginInputDTO, UserInputDTO, UserProfileOutput, TUser } from "../model/UserModel";
+import { LoginInputDTO, UserInputDTO, UserProfileOutput, TUser, followUserInputDTO, GetUserInfoById } from "../model/UserModel";
 
 
 export class UserController{
@@ -21,8 +21,8 @@ export class UserController{
       res.status(error.statusCode || 400).send(error.message || error.sqlMessage);
     }
   };
-  //  ------ -- // ----- ----- ---- // ---- -- ---- // --- -- -- //
 
+  //  ------ -- // ----- ----- ---- // ---- -- ---- // --- -- -- //
   public login = async (req:Request, res:Response):Promise<void> => {
     try{
       const inputLogin:LoginInputDTO = {
@@ -36,8 +36,8 @@ export class UserController{
       res.status(error.statusCode || 400).send(error.message || error.sqlMessage);
     }
   };
-  //  ------ -- // ----- ----- ---- // ---- -- ---- // --- -- -- //
 
+  //  ------ -- // ----- ----- ---- // ---- -- ---- // --- -- -- //
   public getProfile = async (req:Request, res:Response):Promise<void> => {
     try{
       const token = req.headers.authorization as string;
@@ -49,8 +49,8 @@ export class UserController{
       res.status(error.statusCode || 400).send(error.message || error.sqlMessage);
     }
   };
-  //  ------ -- // ----- ----- ---- // ---- -- ---- // --- -- -- //
 
+  //  ------ -- // ----- ----- ---- // ---- -- ---- // --- -- -- //
   public getAllUsers = async (req:Request, res:Response):Promise<void> => {
     try{
       
@@ -58,6 +58,37 @@ export class UserController{
       const allUsers:TUser[] = await this.userBusiness.getAllUsers();
 
       res.status(200).send(allUsers);
+    }catch(error:any){
+      res.status(error.statusCode || 400).send(error.message || error.sqlMessage);
+    }
+  };
+
+  //  ------ -- // ----- ----- ---- // ---- -- ---- // --- -- -- //
+  public followUser = async (req:Request, res:Response):Promise<void> => {
+    try{
+      const input:followUserInputDTO = {
+        token: req.headers.authorization as string,
+        followId: req.body.followId
+      }; 
+      await this.userBusiness.followUser(input)
+
+      res.status(200).send({message: "Usuário seguido!"});
+    }catch(error:any){
+      res.status(error.statusCode || 400).send(error.message || error.sqlMessage);
+    }
+  };
+  
+  //  ------ -- // ----- ----- ---- // ---- -- ---- // --- -- -- //
+  public getUserProfileByid = async (req:Request, res:Response):Promise<void> => {
+    try{
+      const input:GetUserInfoById = {
+        token: req.headers.authorization as string,
+        userId:req.params.id
+      }
+    
+      const profile:UserProfileOutput = await this.userBusiness.getUserById(input);
+
+      res.status(200).send(profile);
     }catch(error:any){
       res.status(error.statusCode || 400).send(error.message || error.sqlMessage);
     }
