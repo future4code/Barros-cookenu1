@@ -33,3 +33,23 @@ export interface LoginInputDTO {
   email: string,
   password: string
 }
+// -- -- -- -- // -- -- -- -- // -- -- //
+export interface GetUserInfoById {
+  token: string,
+  userId: string
+};
+
+// -- -- -- -- // -- -- -- -- // -- -- //
+
+export interface followUserInputDTO {
+  token:string,
+  followId: string
+};
+
+export type IdentifiersUsersInput = {
+  id:string,
+  fk_user_follower: string,
+  fk_following_user: string
+};
+
+// -- -- -- -- // -- -- -- -- // -- -- //

@@ -1,5 +1,5 @@
 import { UserCustomError } from "../customError/UserCustomError";
-import { TUser} from "../model/UserModel";
+import { IdentifiersUsersInput, TUser} from "../model/UserModel";
 import { BaseDatabase } from "./BaseDatabase";
 import { TablesNames } from "./TablesName";
 
@@ -34,7 +34,7 @@ export class UserDatabase extends BaseDatabase{
       throw new UserCustomError(error.statusCode, error.message);
     };
   };
-
+  // -- -- -- -- -- -- - -- -- -- // -- -- -- -- -- -- -- -- -- -- -- //
   public getAllUsers = async ():Promise<TUser[]> => {
     try{
       const users = await UserDatabase.connection(TablesNames.Table_user).select()
@@ -43,6 +43,14 @@ export class UserDatabase extends BaseDatabase{
       throw new UserCustomError(error.statusCode, error.message);
     };
   };
-  
   // -- -- -- -- -- -- - -- -- -- // -- -- -- -- -- -- -- -- -- -- -- //
+  public followUser = async (input:IdentifiersUsersInput):Promise<void> => {
+    try{
+      await UserDatabase.connection(TablesNames.Table_following).insert(input)
+
+    }catch(error:any){
+      throw new UserCustomError(error.statusCode, error.message);
+    };
+  };
+
 }

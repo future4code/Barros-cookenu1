@@ -1,4 +1,4 @@
-import { LoginInputDTO, TUser, UserInputDTO, UserProfileOutput, USER_TYPE } from "../model/UserModel";
+import { followUserInputDTO, GetUserInfoById, IdentifiersUsersInput, LoginInputDTO, TUser, UserInputDTO, UserProfileOutput, USER_TYPE } from "../model/UserModel";
 import * as UserError from "../customError/UserCustomError";
 import { TokenGenerator } from "../services/TokenGenerator";
 import { IdGenerator } from "../services/IdGenerator";
@@ -78,10 +78,13 @@ export class UserBusiness {
   public getProfile = async (token:string):Promise<UserProfileOutput> => {
     try{
       if(!token){
-        throw new UserError.Unauthorized()
+        throw new UserError.UserCustomError(422,"Preencha o authorization com um token!")
       };
       
       const tokenData = this.tokenGenerator.getTokenData(token)
+      if(!tokenData){
+        throw new UserError.Unauthorized()
+      }
       const user:TUser = await this.userDatabase.getUserById(tokenData.id);
       if(!user){
         throw new UserError.UserNotFound()
@@ -109,4 +112,61 @@ export class UserBusiness {
   }
   // -- -- -- -- -- -- - -- -- -- // -- -- -- -- -- -- -- -- -- -- -- //
 
+  public followUser = async (input:followUserInputDTO):Promise<void> => {
+    try{
+      const {token,  followId } = input
+      if(!token || !followId){
+        throw new UserError.UserCustomError(422,"Preencha os campos 'followId' e o Authorization com o token!")
+      };
+
+      const getUserIdByToken:string = this.tokenGenerator.getTokenData(token).id;
+      const findUser = await this.userDatabase.getUserById(followId);
+      if(!getUserIdByToken){
+        throw new UserError.Unauthorized()
+      } else if(!findUser){
+        throw new UserError.UserCustomError(404,"ID de usuário que deseja seguir não existe!")
+      };
+
+      const identifiersUsers:IdentifiersUsersInput = {
+        id: IdGenerator.generateId(),
+        fk_user_follower: getUserIdByToken,
+        fk_following_user: followId
+      };
+      
+      await this.userDatabase.followUser(identifiersUsers)
+    }catch(error:any){
+      throw new UserError.UserCustomError(error.statusCode, error.message);
+    };
+  };
+
+  // -- -- -- -- -- -- - -- -- -- // -- -- -- -- -- -- -- -- -- -- -- //
+  public getUserById = async (input: GetUserInfoById):Promise<UserProfileOutput> => {
+    try{
+      if(!input.token || !input.userId){
+        throw new UserError.UserCustomError(422,"Infome o 'userId' no params e o token de autenticação no headers")
+      };
+      if(input.userId === ":id"){
+        throw new UserError.UserCustomError(422,"Informe o id do usuário")
+      };
+
+      const tokenData = this.tokenGenerator.getTokenData(input.token)
+      if(!tokenData){
+        throw new UserError.Unauthorized()
+      };
+
+      const user:TUser = await this.userDatabase.getUserById(input.userId);
+      if(!user){
+        throw new UserError.UserNotFound()
+      };
+      
+      const profile:UserProfileOutput = {
+        id: user.id,
+        name: user.name,
+        email: user.email
+      };
+      return profile;
+    }catch(error:any){
+      throw new UserError.UserCustomError(error.statusCode, error.message);
+    };
+  }
 };
