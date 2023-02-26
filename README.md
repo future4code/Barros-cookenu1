@@ -9,13 +9,12 @@
 
 ---
 ## 📖 Documentação 
-
+https://documenter.getpostman.com/view/22376175/2s93CPrCdV
 
 
 ---
 ## 📚 Deploy no Render
-
-
+https://api-cookenu-u5sh.onrender.com
 
 ---
 ## 🚧 Requisitos do Projeto
@@ -28,6 +27,7 @@
 - 🌀 Login (Com autenticação);
 - 🌀 Ver todas receitas
 - 🌀 Ver informações do perfil logado (Com autenticação)
+- 🌀 Ver informações do perfil de outro usuário (Com autenticação)
 
 
 ---
