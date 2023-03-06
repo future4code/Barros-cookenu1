@@ -1,0 +1,65 @@
+### CRIAR USUÁRIO
+POST http://localhost:3003/user/signup
+Content-Type: application/json
+
+{
+    "name": "elon musk",
+    "email": "tesla23@gmail.com",
+    "password": "boraserDev",
+    "role": "normal"
+}
+
+### FAÇA O LOGIN ABAIXO PARA PEGAR O TOKEN
+POST http://localhost:3003/user/login
+Content-Type: application/json
+
+{
+    "email": "diego@outlook.com",
+    "password": "boraserDev"
+}
+
+### SEGUIR USUÀRIO
+POST http://localhost:3003/user/follow
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0YzY2YjkyLTBjNjEtNDdiMS05ZmFiLTg1MmI3NTg1ZjMzYyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY3NzM2NjgxNiwiZXhwIjoxNjc3MzcwNDE2fQ.QErmvlvLb61u20Bqf3tuz21oba3HYQUw-Dep5aS80oI
+
+{
+    "followId":"ba7ebb2e-0d2e-4d17-9022-66edfcd5afd3"
+}
+
+### SEU PERFIL USUÀRIO, PEGUE O TOKEN NO LOGIN OU CRIANDO UM NOVO USUÁRIO 
+GET http://localhost:3003/user/profile
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0YzY2YjkyLTBjNjEtNDdiMS05ZmFiLTg1MmI3NTg1ZjMzYyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY3NzM2ODc4NiwiZXhwIjoxNjc3MzcyMzg2fQ.X0lEqdwZqNDXYO6494OJ6BQt3whyep8GnTtcMjleY1A
+
+### PERFIL DE OUTRO USUÀRIO, PEGUE O TOKEN NO LOGIN OU CRIANDO UM NOVO USUÁRIO 
+GET http://localhost:3003/user/ba7ebb2e-0d2e-4d17-9022-66edfcd5afd3
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0YzY2YjkyLTBjNjEtNDdiMS05ZmFiLTg1MmI3NTg1ZjMzYyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY3NzM2ODc4NiwiZXhwIjoxNjc3MzcyMzg2fQ.X0lEqdwZqNDXYO6494OJ6BQt3whyep8GnTtcMjleY1A
+
+### PEGAR TODOS USUARIOS 
+GET http://localhost:3003/user/all-users
+Content-Type: application/json
+
+
+
+#####################################################################
+
+### CRIAR RECIPE 
+POST http://localhost:3003/recipe/create
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0YzY2YjkyLTBjNjEtNDdiMS05ZmFiLTg1MmI3NTg1ZjMzYyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY3NzM3MjM0NiwiZXhwIjoxNjc3Mzc1OTQ2fQ.EjKd-NAa_Ss3f7sv3ikxr6BTayxgYmQnviZsnFHKhDE
+
+{
+    "title":"biscoito com leite",
+    "description":"Pegar o biscoito da sua preferencia o leite da sua preferencia e jogar os dois em um prato ou vazia e comer!"
+}
+
+### BUSCAR RECIPE POR ID 
+GET http://localhost:3003/recipe/find/:id
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0YzY2YjkyLTBjNjEtNDdiMS05ZmFiLTg1MmI3NTg1ZjMzYyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY3NzM3MjM0NiwiZXhwIjoxNjc3Mzc1OTQ2fQ.EjKd-NAa_Ss3f7sv3ikxr6BTayxgYmQnviZsnFHKhDE
+
+### PEGAR TODOS RECEITAS 
+GET http://localhost:3003/recipe/all-recipe
+Content-Type: application/json
